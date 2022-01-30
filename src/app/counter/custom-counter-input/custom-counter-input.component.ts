@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { customincrement } from '../state/counter.actions';
 import { IinitalState } from '../state/counter.state';
+import { getDeveloper } from '../state/counter.selectors';
+import { IAppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'app-custom-counter-input',
@@ -11,10 +13,15 @@ import { IinitalState } from '../state/counter.state';
 export class CustomCounterInputComponent implements OnInit {
 
   value: number;
+  developer: string;
 
-  constructor(private store: Store<{state: IinitalState}>) { }
+  constructor(private store: Store<IAppState>) { }
 
   ngOnInit(): void {
+    this.store.select(getDeveloper).subscribe((developerName) => {
+		console.log('Aman Gupta resolved observable');
+    	this.developer = developerName;
+    });
   }
 
   onAdd() {
