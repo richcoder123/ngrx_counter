@@ -1,0 +1,17 @@
+<h3>Edit Post</h3>
+<hr>
+<div>
+    <form action="" [formGroup]='postForm' (ngSubmit)='onUpdate()'>
+        <div class="mb-3">
+            <label for="">Title</label>
+            <input class='form-control' formControlName='title' type="text">
+        </div>
+        <div class="mb-3">
+            <label for="" >Description</label>
+            <textarea class='form-control' formControlName='description' name="" id="" cols="30" rows="10"></textarea>
+        </div>
+        <div>
+            <button>Update form</button>
+        </div>
+    </form>
+</div>

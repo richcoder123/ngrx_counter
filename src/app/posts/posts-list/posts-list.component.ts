@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 import { IAppState } from 'src/app/store/app.state';
 import { getPosts } from '../state/posts.selector';
 import { IPost } from 'src/app/models/post.model';
+import { deletePost } from '../state/posts.actions';
 
 @Component({
   selector: 'app-posts-list',
@@ -17,6 +18,11 @@ export class PostsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.posts$ = this.store.select(getPosts);
+  }
+
+  delete(id: string) {
+    console.log('component method', id);
+    this.store.dispatch(deletePost({id}));
   }
 
 }
