@@ -1,12 +1,18 @@
 <div class="row">
     <div class="col-md-12"></div>
     <h3>Posts list</h3>
+
+    <div [routerLink]="['/posts/add']">
+        <button class="btn btn-primary">Add Posts</button>
+    </div>
+
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Update</th>
             </tr>
         </thead>
         <tbody>
@@ -14,7 +20,16 @@
                 <td>{{ post.id }}</td>
                 <td>{{ post.title }}</td>
                 <td>{{ post.description }}</td>
+                <td>
+                    <a href="" class='btn btn-primary'
+                    [routerLink]="['edit', post.id]">Update</a>&nbsp;
+                    <button class='btn btn-danger' (click)='delete(post.id)'>Delete</button>
+                </td>
             </tr>
         </tbody>
     </table>
+
+    <div class="col-md4">
+        <router-outlet></router-outlet>
+    </div>
 </div>
