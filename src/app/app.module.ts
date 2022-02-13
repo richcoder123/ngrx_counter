@@ -11,6 +11,8 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { appReducer } from './store/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -23,8 +25,10 @@ import { appReducer } from './store/app.state';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-	ReactiveFormsModule,
-	StoreModule.forRoot({}),
+	  ReactiveFormsModule,
+    HttpClientModule,
+  	EffectsModule.forRoot([]),
+	  StoreModule.forRoot({}),
   	StoreDevtoolsModule.instrument({
     	logOnly: environment.production, // Restrict extension to log-only mode
   	}),
