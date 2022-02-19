@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from "../../services/auth.service";
-import { loginStart, loginSuccess } from './auth.actions';
+import { loginStart, loginSuccess, signupStart, signupSuccess } from './auth.actions';
 import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
 import { Store } from "@ngrx/store";
 import { IAppState } from "src/app/store/app.state";
@@ -50,11 +50,40 @@ export class AuthEffects {
 
     loginRedirect$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(loginSuccess),
+            ofType(...[loginSuccess, signupSuccess]),
             tap((action) => {
                 this.router.navigate(['/']);
             })
         )
     }, { dispatch: false});
+
+    signup$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(signupStart),
+            exhaustMap((action) => {
+                return this.authService.signUp(action.email, action.password).pipe(
+                    map((data) => {
+                        this.store.dispatch(setLoadingSpinner({
+                            status: false,
+                        }));
+                        this.store.dispatch(setErrorMessage({
+                            message: '',                            
+                        }));
+                        const user = this.authService.formatUser(data);
+                        return signupSuccess({ user });
+                    }),
+                    catchError((errorResp) => {
+                        this.store.dispatch(setLoadingSpinner({
+                            status: false,
+                        }));
+                        const errorMsg = this.authService.getErrorMessage(errorResp.error.error.errorMessage)
+                        return of(setErrorMessage({
+                            message: errorMsg
+                        }));
+                    }),
+                )
+            })
+        )
+    })
 }
 
